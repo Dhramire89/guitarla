@@ -1,7 +1,12 @@
+import React from "react";
+import { useState, useEfect } from "react";
 import Header from "./Components/Header";
 import Guitar from "./Components/Guitar";
+import { db } from "./data/data";
 
 function App() {
+  const [data, setData] = useState(db);
+
   return (
     <>
       <Header />
@@ -9,11 +14,9 @@ function App() {
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
         <div className="row mt-5">
-          <Guitar />
-          <Guitar />
-          <Guitar />
-          <Guitar />
-          <Guitar />
+          {data.map(() => {
+            return <Guitar />;
+          })}
         </div>
       </main>
 
