@@ -1,11 +1,13 @@
 import React from "react";
-import Guitar from "./Guitar";
+import { useMemo } from "react";
 
-const Header = ({ cart }) => {
-  // State Derivado
-  const isEmpty = () => cart.length === 0;
-  const cartTotal = () =>
-    cart.reduce((total, item) => total + item.quantity * item.price, 0);
+const Header = ({ cart, removeFromCart }) => {
+  // UseMemo es un hook que solo se actualiza cuando cambia el arreglo que se le pasa en el 2° parametro
+  const isEmpty = useMemo(() => cart.length === 0, [cart]);
+  const cartTotal = useMemo(
+    () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
+    [cart]
+  );
 
   return (
     <div>
@@ -30,7 +32,7 @@ const Header = ({ cart }) => {
                 />
 
                 <div id="carrito" className="bg-white p-3">
-                  {isEmpty() ? (
+                  {isEmpty ? (
                     <p className="text-center">El carrito esta vacio </p>
                   ) : (
                     <>
@@ -70,6 +72,7 @@ const Header = ({ cart }) => {
                                 <button
                                   className="btn btn-danger"
                                   type="button"
+                                  onClick={() => removeFromCart(guitar.id)}
                                 >
                                   X
                                 </button>
@@ -80,7 +83,7 @@ const Header = ({ cart }) => {
                       </table>
                       <p className="text-end">
                         Total pagar:{" "}
-                        <span className="fw-bold">${cartTotal()}</span>
+                        <span className="fw-bold">${cartTotal}</span>
                       </p>
                     </>
                   )}
