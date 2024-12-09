@@ -5,8 +5,14 @@ import Guitar from "./Components/Guitar";
 import { db } from "./data/data";
 
 function App() {
+  const initialCart = () => {
+    // funcion que nos permite recuperar los datos almacenados y cargarlos al state
+    const localStorageCart = localStorage.getItem(`cart`); // recupera los datos almacenados
+    return localStorageCart ? JSON.parse(localStorageCart) : []; // si existe los convierte a un arreglo de nuevo, sino, arreglo vacio
+  };
+
   const [data, setData] = useState(db);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(initialCart);
   const MAX_ITEMS = 5;
   const MIN_ITEMS = 1;
 
