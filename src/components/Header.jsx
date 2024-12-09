@@ -5,7 +5,8 @@ const Header = ({
   cart,
   removeFromCart,
   increaseQuantity,
-  decrementQuantity,
+  decreaseQuantity,
+  cleanCart,
 }) => {
   // UseMemo es un hook que solo se actualiza cuando cambia el arreglo que se le pasa en el 2° parametro
   const isEmpty = useMemo(() => cart.length === 0, [cart]);
@@ -68,7 +69,7 @@ const Header = ({
                                 <button
                                   type="button"
                                   className="btn btn-dark"
-                                  onClick={() => decrementQuantity(guitar.id)}
+                                  onClick={() => decreaseQuantity(guitar.id)}
                                 >
                                   -
                                 </button>
@@ -101,7 +102,10 @@ const Header = ({
                     </>
                   )}
 
-                  <button className="btn btn-dark w-100 mt-3 p-2">
+                  <button
+                    className="btn btn-dark w-100 mt-3 p-2"
+                    onClick={cleanCart}
+                  >
                     Vaciar Carrito
                   </button>
                 </div>
