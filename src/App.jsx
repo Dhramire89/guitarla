@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Guitar from "./Components/Guitar";
 import { db } from "./data/data";
@@ -9,6 +9,12 @@ function App() {
   const [cart, setCart] = useState([]);
   const MAX_ITEMS = 5;
   const MIN_ITEMS = 1;
+
+  //Como el useState es Asincrono, se ejecutava primero la funcion antes de que el state se actualizara, para evitar eso
+  // usamos el useEfect, que se va a ejecutar cuando el state(cart) cambie. Osea, lo espera hasta que este completo.
+  useEffect(() => {
+    localStorage.setItem(`cart`, JSON.stringify(cart)); // ver mas abajo los comentarios de como implementarlo.
+  }, [cart]);
 
   // Funtion para agregar productos al carrito
   function addToCart(item) {
@@ -66,6 +72,13 @@ function App() {
   function cleanCart() {
     setCart([]);
   }
+
+  // Almacenamiento en Local Storege
+  //function saveLocalStorage() {
+  // solo almana String, por eso se convierte con JSON.stringify
+  // 1° parametro el nombre de como se va a guardar, 2° es lo que se va a guardar
+  //localStorage.setItem(`cart`, JSON.stringify(cart));
+  //}
 
   return (
     <>
