@@ -7,6 +7,7 @@ import { db } from "./data/data";
 function App() {
   const [data, setData] = useState(db);
   const [cart, setCart] = useState([]);
+  const MaxItems = 5;
 
   // Funtion para agregar productos al carrito
   function addToCart(item) {
@@ -33,7 +34,7 @@ function App() {
   // Funtion para incrementar las cantidades del carrito
   function increaseQuantity(id) {
     const updateCart = cart.map((item) => {
-      if (item.id == id) {
+      if (item.id == id && item.quantity < MaxItems) {
         return {
           ...item,
           quantity: item.quantity + 1,
@@ -41,7 +42,21 @@ function App() {
       } // se tienen que devolver completos los items que no se modificaron
       return item;
     });
-    setCart(updateCart);
+    setCart(updateCart); // se actializa con las nuevas cantidades
+  }
+  // Funtion para incrementar las cantidades del carrito
+  function decrementQuantity(id) {
+    const updateCart = cart.map((item) => {
+      if (item.id == id && item.quantity > 1) {
+        // limita que continue decrementando
+        return {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+      } // se tienen que devolver completos los items que no se modificaron
+      return item;
+    });
+    setCart(updateCart); // se actializa con las nuevas cantidades
   }
 
   return (
@@ -50,6 +65,7 @@ function App() {
         cart={cart}
         removeFromCart={removeFromCart}
         increaseQuantity={increaseQuantity}
+        decrementQuantity={decrementQuantity}
       />
 
       <main className="container-xl mt-5">

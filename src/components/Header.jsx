@@ -1,7 +1,12 @@
 import React from "react";
 import { useMemo } from "react";
 
-const Header = ({ cart, removeFromCart, increaseQuantity }) => {
+const Header = ({
+  cart,
+  removeFromCart,
+  increaseQuantity,
+  decrementQuantity,
+}) => {
   // UseMemo es un hook que solo se actualiza cuando cambia el arreglo que se le pasa en el 2° parametro
   const isEmpty = useMemo(() => cart.length === 0, [cart]);
   const cartTotal = useMemo(
@@ -60,7 +65,11 @@ const Header = ({ cart, removeFromCart, increaseQuantity }) => {
                               <td>{guitar.name}</td>
                               <td className="fw-bold">{guitar.price}</td>
                               <td className="flex align-items-start gap-4">
-                                <button type="button" className="btn btn-dark">
+                                <button
+                                  type="button"
+                                  className="btn btn-dark"
+                                  onClick={() => decrementQuantity(guitar.id)}
+                                >
                                   -
                                 </button>
                                 {guitar.quantity}
