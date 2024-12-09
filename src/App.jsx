@@ -1,6 +1,6 @@
 import React from "react";
-import { useState, useEfect } from "react";
-import Header from "./Components/Header";
+import { useState } from "react";
+import Header from "./components/Header";
 import Guitar from "./Components/Guitar";
 import { db } from "./data/data";
 
@@ -8,12 +8,15 @@ function App() {
   const [data, setData] = useState(db);
   const [cart, setCart] = useState([]);
 
+  // Funtion para agregar productos al carrito
   function addToCart(item) {
     const itemExists = cart.findIndex((guitar) => guitar.id === item.id);
+    // si devuelve -1 significa que el carrito esta vacio y agrega el producto
     if (itemExists < 0) {
-      item.quantity = 1;
-      setCart([...cart, item]);
+      item.quantity = 1; // nuevo atributo que se le agrega el obj item
+      setCart([...cart, item]); // se le agrega el articulo al carrito manteniendo los datos anteriores
       console.log("se agrego");
+      // si ya existe, solo le suma 1 a la cantidad del producto
     } else {
       const updateCart = [...cart];
       updateCart[itemExists].quantity++;
@@ -22,13 +25,32 @@ function App() {
     }
   }
 
+  // Funcion para eliminar productos del carrito
   function removeFromCart(id) {
     setCart((prevCar) => prevCar.filter((guitar) => guitar.id !== id));
   }
 
+  // Funtion para incrementar las cantidades del carrito
+  function increaseQuantity(id) {
+    const updateCart = cart.map((item) => {
+      if (item.id == id) {
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      } // se tienen que devolver completos los items que no se modificaron
+      return item;
+    });
+    setCart(updateCart);
+  }
+
   return (
     <>
-      <Header cart={cart} removeFromCart={removeFromCart} />
+      <Header
+        cart={cart}
+        removeFromCart={removeFromCart}
+        increaseQuantity={increaseQuantity}
+      />
 
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
